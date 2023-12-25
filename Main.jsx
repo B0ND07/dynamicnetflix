@@ -5,7 +5,7 @@ function Main() {
     const [movies,setMovies]=useState([])
 
 useEffect(() => {
-  console.log("hai")
+
         axios
           .get(
             "https://api.themoviedb.org/3/movie/popular?api_key=7375b3162ed1bb2f24bb965386019997"
