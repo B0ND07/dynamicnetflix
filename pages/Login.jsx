@@ -4,28 +4,23 @@ import { useNavigate } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 
 function Login() {
-  
-const [email,setEmail]=useState('')
-const [password,setPassword]=useState("")
-const [error,setError]=useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
+  const { logIn } = UserAuth();
 
-  const {user,logIn}=UserAuth()
-
-
-const handleSubmit=async(e)=>{
-  e.preventDefault()
-  setError('')
-  try{
-    await logIn(email,password)
-    navigate("/")
-    
-  }catch(error){
-    console.log(error)
-    setError(error.message)
-  }
-}
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await logIn(email, password);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      setError(error.message);
+    }
+  };
 
   const navigate = useNavigate();
   const sample = () => {
@@ -43,19 +38,29 @@ const handleSubmit=async(e)=>{
         <div className="textb2">
           <br></br>
           <h1 className="text-4xl">Sign In</h1>
-          {error?<p className="p-3 bg-red-600">{error}</p>:null}
+          {error ? <p className="p-3 bg-red-600">{error}</p> : null}
           <form onSubmit={handleSubmit}>
-          <input onChange={(e)=>setEmail(e.target.value)} className="p-3 my-2" type="text" placeholder="Email address" />
-          <input onChange={(e)=>setPassword(e.target.value)} className="p-3 my-2" type="password" placeholder="Password" />
-          <button type="submit">Sign In </button>
-          <button onClick={sample} style={{ backgroundColor: "blue" }}>
-            Cancel
-          </button>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              className="p-3 my-2"
+              type="text"
+              placeholder="Email address"
+            />
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-3 my-2"
+              type="password"
+              placeholder="Password"
+            />
+            <button type="submit">Sign In </button>
+            <button onClick={sample} style={{ backgroundColor: "blue" }}>
+              Cancel
+            </button>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login;

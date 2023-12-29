@@ -1,6 +1,5 @@
 import React from 'react'
 import NavBar from './NavBar'
-import Main from './Main'
 import Home from './pages/Home'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Signup from './pages/SignUp'

@@ -31,10 +31,7 @@ function Savedshows() {
     <div>
       <h2 className="text-white font-bold md:text-xl p-4">My Saved Shows</h2>
       <div className="relative flex items-center group">
-
-        <div
-          className="w-full h-full relative ml-28"
-        >
+        <div className="w-full h-full relative ml-28">
           {movies.map((display, id) => (
             <div
               key={id}
