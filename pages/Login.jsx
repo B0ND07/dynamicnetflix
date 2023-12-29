@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
 
 function Login() {
-  const history = useNavigate();
-  const sample = () => {
-    history(-1);
-  };
+  
+const [email,setEmail]=useState('')
+const [password,setPassword]=useState("")
+const [error,setError]=useState('')
 
+
+  const {user,logIn}=UserAuth()
+
+
+const handleSubmit=async(e)=>{
+  e.preventDefault()
+  setError('')
+  try{
+    await logIn(email,password)
+
+
+    navigate("/")
+  }catch(error){
+    console.log(error)
+    setError(error.message)
+  }
+}
+
+
+  const navigate = useNavigate();
+  const sample = () => {
+    navigate("/");
+  };
   return (
     <div className="containers2">
       <img
@@ -20,10 +44,11 @@ function Login() {
         <div className="textb2">
           <br></br>
           <h1 className="text-4xl">Sign In</h1>
-          <form>
-          <input type="text" placeholder="     Email address" />
-          <input type="password" placeholder="     Password" />
-          <button>Sign In </button>
+          {error?<p className="p-3 bg-red-600">{error}</p>:null}
+          <form onSubmit={handleSubmit}>
+          <input onChange={(e)=>setEmail(e.target.value)} className="p-3 my-2" type="text" placeholder="Email address" />
+          <input onChange={(e)=>setPassword(e.target.value)} className="p-3 my-2" type="password" placeholder="Password" />
+          <button type="submit">Sign In </button>
           <button onClick={sample} style={{ backgroundColor: "blue" }}>
             Cancel
           </button>

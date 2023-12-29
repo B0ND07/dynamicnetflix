@@ -10,7 +10,7 @@ import {
 const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
-  const [user, setUser] = useState("hey");
+  const [user, setUser] = useState(null);
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);

@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { UserAuth } from "../context/AuthContext";
 
 function Signup() {
-  const history = useNavigate();
+
+const [email,setEmail]=useState('')
+const [password,setPassword]=useState("")
+
+
+  const {user,signUp}=UserAuth()
+
+
+const handleSubmit=async(e)=>{
+  e.preventDefault()
+  try{
+    await signUp(email,password)
+    navigate("/")
+  }catch(error){
+    console.log(error)
+  }
+}
+
+
+  const navigate = useNavigate();
   const sample = () => {
-    history(-1);
+    navigate("/");
   };
 
   return (
@@ -20,10 +40,10 @@ function Signup() {
         <div className="textb2">
           <br></br>
           <h1 className="text-4xl">Sign Up</h1>
-          <form>
-          <input type="text" placeholder="     Email address" />
-          <input type="password" placeholder="     Password" />
-          <button>Sign Up </button>
+          <form onSubmit={handleSubmit}>
+          <input onChange={(e)=>setEmail(e.target.value)} className="p-3 my-2" type="text" placeholder="Email address" />
+          <input onChange={(e)=>setPassword(e.target.value)} className="p-3 my-2" type="password" placeholder="Password" />
+          <button type="submit">Sign Up </button>
           <button onClick={sample} style={{ backgroundColor: "blue" }}>
             Cancel
           </button>
