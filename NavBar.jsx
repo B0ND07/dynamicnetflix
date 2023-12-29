@@ -20,7 +20,7 @@ const navigate = useNavigate();
     
       {user?.email?<div >
       
-      <Link to='/signin'><button className="text-white pr-4">Account</button></Link>
+      <Link to='/account'><button className="text-white pr-4">Account</button></Link>
      <button onClick={handleLogout} className="bg-red-600 px-6 py-2 rounded cursor-pointer text-white">Logout</button>
       </div>
 :<div >

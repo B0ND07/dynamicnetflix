@@ -18,9 +18,8 @@ const handleSubmit=async(e)=>{
   setError('')
   try{
     await logIn(email,password)
-
-
     navigate("/")
+    
   }catch(error){
     console.log(error)
     setError(error.message)

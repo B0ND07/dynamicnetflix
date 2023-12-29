@@ -7,6 +7,7 @@ function Signup() {
 
 const [email,setEmail]=useState('')
 const [password,setPassword]=useState("")
+const [error,setError]=useState('')
 
 
   const {user,signUp}=UserAuth()
@@ -19,6 +20,7 @@ const handleSubmit=async(e)=>{
     navigate("/")
   }catch(error){
     console.log(error)
+    setError(error.message)
   }
 }
 
@@ -40,6 +42,7 @@ const handleSubmit=async(e)=>{
         <div className="textb2">
           <br></br>
           <h1 className="text-4xl">Sign Up</h1>
+          {error?<p className="p-3 bg-red-600">{error}</p>:null}
           <form onSubmit={handleSubmit}>
           <input onChange={(e)=>setEmail(e.target.value)} className="p-3 my-2" type="text" placeholder="Email address" />
           <input onChange={(e)=>setPassword(e.target.value)} className="p-3 my-2" type="password" placeholder="Password" />
