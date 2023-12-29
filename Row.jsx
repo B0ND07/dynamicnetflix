@@ -2,11 +2,32 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa"; 
 import {MdChevronLeft, MdChevronRight} from "react-icons/md"
+import { UserAuth } from "./context/AuthContext";
+import { db } from "./firebase";
+import { arrayUnion,doc,updateDoc } from "firebase/firestore";
 
 function Row({ title, fetchUrl, rowID }) {
+  const [saved, setSaved] = useState(false);
+  const {user}=UserAuth()
   const [movies, setMovies] = useState([]);
   const [hoveredMovie, setHoveredMovie] = useState(null);
   const [like, setlike] = useState(false);
+
+  const movieID=doc(db,'users',`${user?.email}`)
+
+  const saveShow=async()=>{
+    if(user?.email){
+      setlike(!like)
+      setSaved(true)
+      await updateDoc(movieID,{
+        id:movies.id,
+        title:movies.title,
+        img:movies.backdrop_path
+      })
+    }else{
+      alert('please log in to save a movie')
+    }
+  }
 
   useEffect(() => {
     axios.get(fetchUrl).then((response) => {
@@ -47,11 +68,11 @@ function Row({ title, fetchUrl, rowID }) {
               />
               {hoveredMovie === id && (
                 <div className="absolute top-0 left-0 w-full h-full bg-black/80 opacity-100 text-white">
-                  <p className="absolute top-4 left-6 text-gray-300" >
+                  <p onClick={saveShow} className="absolute top-4 left-6 text-gray-300" >
                     {like ? (
-                      <FaHeart onClick={() => setlike(!like)}/>
+                      <FaHeart/>
                     ) : (
-                      <FaRegHeart onClick={() => setlike(!like)}/>
+                      <FaRegHeart/>
                     )}
                   </p>
                   <p className="white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center">

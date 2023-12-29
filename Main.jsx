@@ -15,7 +15,7 @@ useEffect(() => {
             setMovies(response.data.results);
             
           });
-          
+           
       }, []);
 
   return (
