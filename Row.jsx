@@ -13,10 +13,12 @@ function Row({ title, fetchUrl, rowID }) {
       setMovies(response.data.results);
     });
   }, [fetchUrl]);
+
   const slideLeft = () => {
     var slider = document.getElementById('slider' + rowID);
     slider.scrollLeft = slider.scrollLeft - 500;
   };
+  
   const slideRight = () => {
     var slider = document.getElementById('slider' + rowID);
     slider.scrollLeft = slider.scrollLeft + 500;
@@ -47,9 +49,9 @@ function Row({ title, fetchUrl, rowID }) {
                 <div className="absolute top-0 left-0 w-full h-full bg-black/80 opacity-100 text-white">
                   <p className="absolute top-4 left-6 text-gray-300" >
                     {like ? (
-                      <FaHeart />
+                      <FaHeart onClick={() => setlike(!like)}/>
                     ) : (
-                      <FaRegHeart />
+                      <FaRegHeart onClick={() => setlike(!like)}/>
                     )}
                   </p>
                   <p className="white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center">
