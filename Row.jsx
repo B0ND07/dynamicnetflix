@@ -1,33 +1,10 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa"; 
-import {MdChevronLeft, MdChevronRight} from "react-icons/md"
-import { UserAuth } from "./context/AuthContext";
-import { db } from "./firebase";
-import { arrayUnion,doc,updateDoc } from "firebase/firestore";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Movie from './Movie';
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
-function Row({ title, fetchUrl, rowID }) {
-  const [saved, setSaved] = useState(false);
-  const {user}=UserAuth()
+const Row = ({ title, fetchUrl, rowID }) => {
   const [movies, setMovies] = useState([]);
-  const [hoveredMovie, setHoveredMovie] = useState(null);
-  const [like, setlike] = useState(false);
-
-  const movieID=doc(db,'users',`${user?.email}`)
-
-  const saveShow=async()=>{
-    if(user?.email){
-      setlike(!like)
-      setSaved(true)
-      await updateDoc(movieID,{
-        id:movies.id,
-        title:movies.title,
-        img:movies.backdrop_path
-      })
-    }else{
-      alert('please log in to save a movie')
-    }
-  }
 
   useEffect(() => {
     axios.get(fetchUrl).then((response) => {
@@ -39,54 +16,36 @@ function Row({ title, fetchUrl, rowID }) {
     var slider = document.getElementById('slider' + rowID);
     slider.scrollLeft = slider.scrollLeft - 500;
   };
-  
   const slideRight = () => {
     var slider = document.getElementById('slider' + rowID);
     slider.scrollLeft = slider.scrollLeft + 500;
   };
 
-
   return (
-    <div>
-      <h2 className="text-white font-bold md:text-xl p-4">{title}</h2>
-      <div className="relative flex items-center group">
-
-        <MdChevronLeft onClick={slideLeft} className="bg-white rounded-full absolute  opacity-50 hover:opacity-100 cursor-pointer z-10 left-0 hidden group-hover:block" size={40}/>
-
-        <div id={"slider" + rowID} className="w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative">
-          {movies.map((display, id) => (
-            <div
-              key={id}
-              className="w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2"
-              onMouseEnter={() => setHoveredMovie(id)}
-              onMouseLeave={() => setHoveredMovie(null)}
-            >
-              <img
-                className="w-full h-auto block"
-                src={`https://image.tmdb.org/t/p/w500/${display.backdrop_path}`}
-                alt={display.title}
-              />
-              {hoveredMovie === id && (
-                <div className="absolute top-0 left-0 w-full h-full bg-black/80 opacity-100 text-white">
-                  <p onClick={saveShow} className="absolute top-4 left-6 text-gray-300" >
-                    {like ? (
-                      <FaHeart/>
-                    ) : (
-                      <FaRegHeart/>
-                    )}
-                  </p>
-                  <p className="white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center">
-                    {display.title || "No Title"}
-                  </p>
-                </div>
-              )}
-            </div>
+    <>
+      <h2 className='text-white font-bold md:text-xl p-4'>{title}</h2>
+      <div className='relative flex items-center group'>
+        <MdChevronLeft
+          onClick={slideLeft}
+          className='bg-white left-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
+          size={40}
+        />
+        <div
+          id={'slider' + rowID}
+          className='w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative'
+        >
+          {movies.map((item, id) => (
+            <Movie key={id} item={item} id={id} />
           ))}
         </div>
-        <MdChevronRight onClick={slideRight} className="bg-white rounded-full absolute  opacity-50 hover:opacity-100 cursor-pointer z-10 right-0 hidden group-hover:block" size={40}/>
+        <MdChevronRight
+          onClick={slideRight}
+          className='bg-white right-0 rounded-full absolute opacity-50 hover:opacity-100 cursor-pointer z-10 hidden group-hover:block'
+          size={40}
+        />
       </div>
-    </div>
+    </>
   );
-}
+};
 
 export default Row;

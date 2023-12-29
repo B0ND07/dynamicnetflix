@@ -1,7 +1,9 @@
 import React from 'react'
+import Savedshows from '../Savedshows'
 
 function Account() {
   return (
+    <>
     <div className='w-full text-white'>
       <img
         className="w-full h-[400px] object-cover"
@@ -13,6 +15,8 @@ function Account() {
       <h1 className='text-3xl md:text-5xl font-bold'>My Shows</h1>
     </div>
     </div>
+    <Savedshows/>
+    </>
   )
 }
 
